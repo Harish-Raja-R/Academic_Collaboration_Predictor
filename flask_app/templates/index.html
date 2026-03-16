@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Collaboration Compatibility Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">🎓</div>
+      <div>
+        <h1>Academic Collaboration Predictor</h1>
+        <p>Powered by Gradient Boosting ML · Accuracy: 83.25%</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <form action="/predict" method="POST">
+      <div class="two-col">
+        <!-- Researcher 1 -->
+        <div class="card">
+          <h2><span class="badge badge-blue">R1</span> Researcher One</h2>
+          <div class="field">
+            <label>Research Domain</label>
+            <select name="r1_domain" required>
+              {% for d in domains %}<option value="{{ d }}">{{ d }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>H-Index</label>
+              <input type="number" name="r1_h_index" min="1" max="100" value="8" required/>
+            </div>
+            <div class="field">
+              <label>Publications</label>
+              <input type="number" name="r1_publications" min="1" max="500" value="20" required/>
+            </div>
+            <div class="field">
+              <label>Years Experience</label>
+              <input type="number" name="r1_years_experience" min="1" max="50" value="7" required/>
+            </div>
+            <div class="field">
+              <label>Citations</label>
+              <input type="number" name="r1_citations" min="0" max="50000" value="150" required/>
+            </div>
+            <div class="field">
+              <label>Grant Count</label>
+              <input type="number" name="r1_grants" min="0" max="30" value="3" required/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Institution Type</label>
+            <select name="r1_institution" required>
+              {% for i in institutions %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label>Country</label>
+            <select name="r1_country" required>
+              {% for c in countries %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Researcher 2 -->
+        <div class="card">
+          <h2><span class="badge badge-green">R2</span> Researcher Two</h2>
+          <div class="field">
+            <label>Research Domain</label>
+            <select name="r2_domain" required>
+              {% for d in domains %}<option value="{{ d }}">{{ d }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label>H-Index</label>
+              <input type="number" name="r2_h_index" min="1" max="100" value="10" required/>
+            </div>
+            <div class="field">
+              <label>Publications</label>
+              <input type="number" name="r2_publications" min="1" max="500" value="25" required/>
+            </div>
+            <div class="field">
+              <label>Years Experience</label>
+              <input type="number" name="r2_years_experience" min="1" max="50" value="12" required/>
+            </div>
+            <div class="field">
+              <label>Citations</label>
+              <input type="number" name="r2_citations" min="0" max="50000" value="200" required/>
+            </div>
+            <div class="field">
+              <label>Grant Count</label>
+              <input type="number" name="r2_grants" min="0" max="30" value="4" required/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Institution Type</label>
+            <select name="r2_institution" required>
+              {% for i in institutions %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label>Country</label>
+            <select name="r2_country" required>
+              {% for c in countries %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shared attributes -->
+      <div class="card shared-card">
+        <h2>🔗 Shared Attributes</h2>
+        <div class="field">
+          <label>Number of Shared Research Keywords (0–6)</label>
+          <input type="range" name="shared_keywords" min="0" max="6" value="2"
+                 oninput="document.getElementById('kwval').textContent=this.value"/>
+          <span class="range-label" id="kwval">2</span>
+        </div>
+      </div>
+
+      <button class="predict-btn" type="submit">🔍 Predict Compatibility</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>M.Sc. AI &amp; ML · Machine Learning Lab (19MAM46) · CAT II Project · CIT Coimbatore</p>
+  </footer>
+</body>
+</html>

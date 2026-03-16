@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prediction Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">🎓</div>
+      <div>
+        <h1>Academic Collaboration Predictor</h1>
+        <p>Prediction Result</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% if error %}
+    <div class="card result-card error-card">
+      <h2>⚠ Prediction Error</h2>
+      <p>{{ error }}</p>
+    </div>
+    {% else %}
+    <div class="card result-card {% if result.compatible %}result-yes{% else %}result-no{% endif %}">
+      <div class="result-icon">{% if result.compatible %}✅{% else %}❌{% endif %}</div>
+      <h2 class="result-label">{{ result.label }}</h2>
+
+      <div class="prob-container">
+        <p class="prob-text">Compatibility Probability</p>
+        <div class="prob-bar-bg">
+          <div class="prob-bar" style="width: {{ result.probability }}%;
+               background: {% if result.compatible %}#27ae60{% else %}#e74c3c{% endif %};">
+          </div>
+        </div>
+        <p class="prob-number">{{ result.probability }}%</p>
+      </div>
+
+      <div class="result-meta">
+        <div class="meta-item">
+          <span class="meta-key">Confidence</span>
+          <span class="meta-val">{{ result.confidence }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Domain 1</span>
+          <span class="meta-val">{{ result.r1_domain }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Domain 2</span>
+          <span class="meta-val">{{ result.r2_domain }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Model</span>
+          <span class="meta-val">Gradient Boosting</span>
+        </div>
+      </div>
+
+      {% if result.compatible %}
+      <div class="insight insight-pos">
+        💡 These researchers show strong compatibility signals. Shared domain expertise, aligned
+        experience levels, and complementary publication records indicate a high potential for
+        a productive collaboration.
+      </div>
+      {% else %}
+      <div class="insight insight-neg">
+        💡 The profile gap between these researchers is significant. Consider pairing with
+        someone from a closer domain or with a more balanced h-index difference to improve
+        collaboration outcomes.
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <a href="/" class="back-btn">← Predict Another Pair</a>
+  </main>
+
+  <footer>
+    <p>M.Sc. AI &amp; ML · Machine Learning Lab (19MAM46) · CAT II Project · CIT Coimbatore</p>
+  </footer>
+</body>
+</html>
