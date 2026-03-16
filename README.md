@@ -1,277 +1,173 @@
 # 🎓 Academic Collaboration Compatibility Predictor
 
-**M.Sc. AI & ML | Machine Learning Lab (19MAM46) | CAT II Project**
-**Coimbatore Institute of Technology, Coimbatore – 641 014**
+**M.Sc. AI & ML | Machine Learning Lab (19MAM46) | CAT II Project**  
+**Coimbatore Institute of Technology, Coimbatore – 641014**
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-This project predicts whether two academic researchers are likely to form a compatible
-and productive collaboration, based on their research profiles.
+This project predicts whether **two academic researchers are likely to form a compatible and productive collaboration**, based on their research profiles.
 
 **Best Model:** Gradient Boosting Classifier  
-**Accuracy:** 83.25% | **F1-Score:** 0.7886 | **AUC-ROC:** 0.9142 | **CV F1:** 0.7701 ± 0.0399
+
+| Metric | Score |
+|------|------|
+| Accuracy | 83.25% |
+| F1 Score | 0.7886 |
+| AUC-ROC | 0.9142 |
+| Cross-Val F1 | 0.7701 ± 0.0399 |
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 academic_collab_predictor/
+│
 ├── data/
-│   ├── generate_dataset.py          # Dataset generation script
+│   ├── generate_dataset.py
 │   └── academic_collaboration_dataset.csv
+│
 ├── notebooks/
-│   └── eda_and_modeling.py          # EDA + ML Pipeline (main script)
+│   └── eda_and_modeling.py
+│
 ├── models/
-│   └── best_model.pkl               # Saved best model
+│   └── best_model.pkl
+│
 ├── flask_app/
-│   ├── app.py                       # Flask web application
+│   ├── app.py
 │   ├── templates/
 │   │   ├── index.html
 │   │   └── result.html
 │   └── static/
 │       └── style.css
+│
 ├── gradio_app/
-│   └── app.py                       # Hugging Face Spaces Gradio app
-├── report_assets/                   # All 8 EDA/model plots
+│   └── app.py
+│
+├── report_assets/
+│
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Dataset Features
+## 📊 Dataset Features
 
 | Feature | Description |
 |---|---|
-| `r1_domain`, `r2_domain` | Research domains (10 options) |
-| `r1_h_index`, `r2_h_index` | H-index of each researcher |
-| `r1_publications`, `r2_publications` | Publication counts |
-| `r1_years_experience`, `r2_years_experience` | Career duration |
-| `r1_citations`, `r2_citations` | Total citations |
-| `r1_grants`, `r2_grants` | Grant count |
-| `r1_institution`, `r2_institution` | Institution type |
-| `r1_country`, `r2_country` | Country of affiliation |
-| `shared_keywords` | Number of shared research keywords (0–6) |
-| `h_index_diff` | Absolute h-index difference (engineered) |
-| `experience_diff` | Absolute experience gap (engineered) |
-| `same_domain` | Binary: same domain? |
-| `same_country` | Binary: same country? |
-| `total_grants` | Sum of grants (engineered) |
-| `avg_publications` | Average publication count (engineered) |
-| **`compatible`** | **Target: 1 = Compatible, 0 = Not Compatible** |
+| r1_domain, r2_domain | Research domains |
+| r1_h_index, r2_h_index | H-index |
+| r1_publications, r2_publications | Publication count |
+| r1_years_experience, r2_years_experience | Career duration |
+| r1_citations, r2_citations | Citation count |
+| r1_grants, r2_grants | Research grants |
+| r1_institution, r2_institution | Institution type |
+| r1_country, r2_country | Country |
+| shared_keywords | Shared research keywords |
+| h_index_diff | H-index difference |
+| experience_diff | Experience difference |
+| same_domain | Same research domain |
+| same_country | Same country |
+| total_grants | Combined grants |
+| avg_publications | Average publications |
+| **compatible** | Target variable |
 
 ---
 
-## How to Run
+## ⚙️ How to Run
 
-### 1. Install dependencies
+### 1️⃣ Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Generate dataset
+### 2️⃣ Generate dataset
+
 ```bash
-cd data && python generate_dataset.py
+cd data
+python generate_dataset.py
 ```
 
-### 3. Run EDA + Modeling
+### 3️⃣ Run EDA + Modeling
+
 ```bash
-cd notebooks && python eda_and_modeling.py
+cd notebooks
+python eda_and_modeling.py
 ```
 
-### 4. Launch Flask App (Local)
+### 4️⃣ Launch Flask App
+
 ```bash
-cd flask_app && python app.py
-# Open http://localhost:5000
+cd flask_app
+python app.py
 ```
 
-### 5. Launch Gradio App
+Open in browser:
+
+```
+http://localhost:5000
+```
+
+### 5️⃣ Run Gradio App
+
 ```bash
-cd gradio_app && python app.py
+cd gradio_app
+python app.py
 ```
 
 ---
 
-## Model Comparison
+## 🤖 Model Comparison
 
-| Model | Accuracy | F1-Score | AUC-ROC |
+| Model | Accuracy | F1 | AUC |
 |---|---|---|---|
-| Naive Bayes (Baseline) | 72.00% | 0.685 | 0.745 |
-| Logistic Regression (KDDP 2022) | 76.50% | 0.730 | 0.790 |
-| SVM (Lin et al., 2021) | 79.00% | 0.760 | 0.820 |
-| GNN Collab (2023) | 82.00% | 0.795 | 0.855 |
-| **Ours (Gradient Boosting)** | **83.25%** | **0.789** | **0.914** |
-
-Our model achieves the highest AUC-ROC (0.914), outperforming even the GNN-based approach,
-while maintaining the best accuracy and a competitive F1-score.
+| Naive Bayes | 72% | 0.685 | 0.745 |
+| Logistic Regression | 76.5% | 0.73 | 0.79 |
+| SVM | 79% | 0.76 | 0.82 |
+| GNN Collaboration | 82% | 0.795 | 0.855 |
+| **Gradient Boosting (Ours)** | **83.25%** | **0.789** | **0.914** |
 
 ---
 
-## Key Findings
+## 🔍 Key Findings
 
-- **H-index difference** is the single most important feature (importance: 0.2897)
-- **Same domain** is the second most important feature (0.1492)
-- **Shared keywords** strongly correlates with compatibility
-- **Experience gap** of 2–10 years is optimal for collaboration
-- Cross-validation confirms robustness: mean CV F1 = 0.77 ± 0.04
+- **H-index difference** is the most important feature
+- **Same research domain** strongly improves collaboration
+- **Shared keywords** significantly increase compatibility
+- Best collaborations occur when **experience gap is 2-10 years**
 
----
-
-## Deployment
-
-- **Local (Flask):** `http://localhost:5000`
-- **Cloud (Hugging Face Spaces):** `https:/# 🎓 Academic Collaboration Compatibility Predictor
-
-**M.Sc. AI & ML | Machine Learning Lab (19MAM46) | CAT II Project**
-**Coimbatore Institute of Technology, Coimbatore – 641 014**
-
----
-
-## Project Overview
-
-This project predicts whether two academic researchers are likely to form a compatible
-and productive collaboration, based on their research profiles.
-
-**Best Model:** Gradient Boosting Classifier  
-**Accuracy:** 83.25% | **F1-Score:** 0.7886 | **AUC-ROC:** 0.9142 | **CV F1:** 0.7701 ± 0.0399
-
----
-
-## Project Structure
+Cross-validation confirms robustness:
 
 ```
-academic_collab_predictor/
-├── data/
-│   ├── generate_dataset.py          # Dataset generation script
-│   └── academic_collaboration_dataset.csv
-├── notebooks/
-│   └── eda_and_modeling.py          # EDA + ML Pipeline (main script)
-├── models/
-│   └── best_model.pkl               # Saved best model
-├── flask_app/
-│   ├── app.py                       # Flask web application
-│   ├── templates/
-│   │   ├── index.html
-│   │   └── result.html
-│   └── static/
-│       └── style.css
-├── gradio_app/
-│   └── app.py                       # Hugging Face Spaces Gradio app
-├── report_assets/                   # All 8 EDA/model plots
-├── requirements.txt
-└── README.md
+Mean CV F1 = 0.77 ± 0.04
 ```
 
 ---
 
-## Dataset Features
+## 🚀 Deployment
 
-| Feature | Description |
-|---|---|
-| `r1_domain`, `r2_domain` | Research domains (10 options) |
-| `r1_h_index`, `r2_h_index` | H-index of each researcher |
-| `r1_publications`, `r2_publications` | Publication counts |
-| `r1_years_experience`, `r2_years_experience` | Career duration |
-| `r1_citations`, `r2_citations` | Total citations |
-| `r1_grants`, `r2_grants` | Grant count |
-| `r1_institution`, `r2_institution` | Institution type |
-| `r1_country`, `r2_country` | Country of affiliation |
-| `shared_keywords` | Number of shared research keywords (0–6) |
-| `h_index_diff` | Absolute h-index difference (engineered) |
-| `experience_diff` | Absolute experience gap (engineered) |
-| `same_domain` | Binary: same domain? |
-| `same_country` | Binary: same country? |
-| `total_grants` | Sum of grants (engineered) |
-| `avg_publications` | Average publication count (engineered) |
-| **`compatible`** | **Target: 1 = Compatible, 0 = Not Compatible** |
+**Local Flask App**
 
----
-
-## How to Run
-
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
+```
+http://localhost:5000
 ```
 
-### 2. Generate dataset
-```bash
-cd data && python generate_dataset.py
-```
+**HuggingFace Spaces**
 
-### 3. Run EDA + Modeling
-```bash
-cd notebooks && python eda_and_modeling.py
 ```
-
-### 4. Launch Flask App (Local)
-```bash
-cd flask_app && python app.py
-# Open http://localhost:5000
-```
-
-### 5. Launch Gradio App
-```bash
-cd gradio_app && python app.py
+https://huggingface.co/spaces/<your-username>/academic-collab-predictor
 ```
 
 ---
 
-## Model Comparison
+## 📚 References
 
-| Model | Accuracy | F1-Score | AUC-ROC |
-|---|---|---|---|
-| Naive Bayes (Baseline) | 72.00% | 0.685 | 0.745 |
-| Logistic Regression (KDDP 2022) | 76.50% | 0.730 | 0.790 |
-| SVM (Lin et al., 2021) | 79.00% | 0.760 | 0.820 |
-| GNN Collab (2023) | 82.00% | 0.795 | 0.855 |
-| **Ours (Gradient Boosting)** | **83.25%** | **0.789** | **0.914** |
-
-Our model achieves the highest AUC-ROC (0.914), outperforming even the GNN-based approach,
-while maintaining the best accuracy and a competitive F1-score.
-
----
-
-## Key Findings
-
-- **H-index difference** is the single most important feature (importance: 0.2897)
-- **Same domain** is the second most important feature (0.1492)
-- **Shared keywords** strongly correlates with compatibility
-- **Experience gap** of 2–10 years is optimal for collaboration
-- Cross-validation confirms robustness: mean CV F1 = 0.77 ± 0.04
-
----
-
-## Deployment
-
-- **Local (Flask):** `http://localhost:5000`
-- **Cloud (Hugging Face Spaces):** `https://huggingface.co/spaces/<your-username>/academic-collab-predictor`
-
----
-
-## References
-
-1. Beaver, D., & Rosen, R. (1978). Studies in scientific collaboration. *Scientometrics*, 1(1).
-2. Katz, J. S., & Martin, B. R. (1997). What is research collaboration? *Research Policy*, 26(1).
-3. Lin, Y., et al. (2021). Predicting researcher collaboration using SVM. *AAAI Workshop on AI4Science*.
-4. Wang, Z., et al. (2023). GNN-based academic collaboration recommendation. *ACM KDD*.
-5. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
-/huggingface.co/spaces/<your-username>/academic-collab-predictor`
-
----
-
-## References
-
-1. Beaver, D., & Rosen, R. (1978). Studies in scientific collaboration. *Scientometrics*, 1(1).
-2. Katz, J. S., & Martin, B. R. (1997). What is research collaboration? *Research Policy*, 26(1).
-3. Lin, Y., et al. (2021). Predicting researcher collaboration using SVM. *AAAI Workshop on AI4Science*.
-4. Wang, Z., et al. (2023). GNN-based academic collaboration recommendation. *ACM KDD*.
-5. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
-#   A c a d e m i c _ C o l l a b o r a t i o n _ P r e d i c t o r 
- 
- #   A c a d e m i c _ C o l l a b o r a t i o n _ P r e d i c t o r 
- 
- 
+1. Beaver & Rosen (1978) – Studies in Scientific Collaboration  
+2. Katz & Martin (1997) – What is Research Collaboration  
+3. Lin et al. (2021) – SVM-based Collaboration Prediction  
+4. Wang et al. (2023) – GNN Collaboration Recommendation  
+5. Pedregosa et al. (2011) – Scikit-learn
